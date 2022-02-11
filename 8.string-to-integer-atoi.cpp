@@ -10,52 +10,63 @@
 
 using namespace std;
 
-
-
-bool isdigit(char c) {
-    if( c  >= '0' && c <= '9')
+bool isdigit(char c)
+{
+    if (c >= '0' && c <= '9')
         return true;
     return false;
 }
 
-class Solution {
+class Solution
+{
 public:
-    int myAtoi(string s) {
+    int myAtoi(string s)
+    {
 
         int res = 0;
         bool negative = false;
-        for(int i = 0 ; i< s.size(); i++){
-            if(s[i] == ' ')
+        bool shouldBeNum = false;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (!shouldBeNum && s[i] == ' ')
                 continue;
 
-            if(s[i] == '-'){
+            if (!shouldBeNum && s[i] == '-')
+            {
                 negative = true;
+                shouldBeNum = true;
                 continue;
             }
 
-            if(!isdigit(s[i])){
+            if (!shouldBeNum && s[i] == '+')
+            {
+                shouldBeNum = true;
+                continue;
+            }
+
+            if (!isdigit(s[i]))
+            {
                 break;
             }
+
+            shouldBeNum = true;
             int num = s[i] - '0';
-            
-            if(res > INT_MAX / 10 || (res == INT_MAX/10 && 
-                num > INT_MAX % 10) )
+            if (res > INT_MAX / 10 || (res == INT_MAX / 10 &&
+                                       num > INT_MAX % 10))
             {
-                if(negative)
+                if (negative)
                     return INT_MIN;
-                else    
+                else
                     return INT_MAX;
             }
             res = res * 10 + num;
         }
-        if(negative){
+        if (negative)
+        {
             res = res * -1;
         }
         return res;
     }
-
-    
 };
 
 // @lc code=end
-
