@@ -31,6 +31,7 @@ public:
         }
         ListNode* halfR = reverse(slow->next);
         slow->next = nullptr;
+        cout << slow->val << endl;
         while(head != nullptr && halfR != nullptr){
             ListNode* aNext = head->next;
             ListNode* bNext = halfR->next;
@@ -50,11 +51,10 @@ public:
         ListNode *curr = head;
         ListNode *next = curr->next;
         while(next != nullptr){
+            curr->next = prev;
             prev = curr;
-            ListNode *temp = next;
+            curr = next;
             next = next->next;
-            curr->next->next = prev;
-            curr = temp;
         }
         curr->next = prev;
         return curr;
