@@ -21,33 +21,27 @@ using namespace std;
 
 class Solution {
 public:
-    TreeNode* adjustBST(TreeNode* root){
-        if(root == nullptr){
-            return nullptr;
-        }
-        if(root->left == nullptr  && root->right == nullptr){
-            return nullptr;
-        } else if(root->right == nullptr){
-            swap(root->val, root->left->val);
-            root->left = adjustBST(root->left);
-        } else {
-            swap(root->val, root->right->val);
-            root->right = adjustBST(root->right);
-        }
-        return root;
-    }
+    //利用二叉树的递归性质来解决问题
     TreeNode* deleteNode(TreeNode* root, int key) {
-        TreeNode* searchNode = root;
-        while(searchNode != nullptr){
-            if(searchNode->val == key){
-                break;
-            } else if(searchNode->val > key){
-                searchNode = searchNode->left;
+        if(!root){
+            return root;
+        }
+        if(root->val > key){
+            root->left = deleteNode(root->left, key);
+        } else if(root->val < key){
+            root->right = deleteNode(root->right, key);
+        } else {
+            if(!root->left || !root->right){
+                root = root->left ? root->left:root->right;
             } else {
-                searchNode = searchNode->right;
+                TreeNode* del = root->right;
+                while(del->left){
+                    del = del->left;
+                }
+                root->val = del->val;
+                root->right = deleteNode(root->right, del->val);
             }
         }
-        searchNode = adjustBST(searchNode);
         return root;
     }
 };
