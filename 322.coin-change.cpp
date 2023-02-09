@@ -16,27 +16,22 @@ public:
         }
         this->coins = coins;
         this->amount = amount;
-        this->res  = -1;
-        sort(this->coins.begin(), this->coins.end());
-        backtracking(0, 0);
-        return this->res;
-        
-    }
-    void backtracking(long num, long curSum){
-        for(int i = this->coins.size()-1; i >= 0; i--){
-            if(curSum + this->coins[i] < this->amount){
-                num++;
-                if(this->res != -1 && num > this->res){
-                    return;
-                }
-                backtracking(num, curSum + this->coins[i]);
-                num--;
-            }
-            if(curSum + this->coins[i] == this->amount){
-                this->res = this->res == -1? num+1:min(this->res, num+1); 
-                return;
+        map<int, bool> coinMap;
+        for(auto c : coins){
+            coinMap[c] = false;
+        }
+        vector<int> dp(amount+1, -1);
+        dp[0] = 0;
+        for(int i = 1; i <= amount; i++){
+            for(auto iter = coinMap.begin(); iter != coinMap.end(); iter++){
+                if(i - iter->first >=0 && dp[i-iter->first] >= 0 ){
+                    dp[i] =  dp[i] == -1 ? dp[i-iter->first]+1:min(dp[i], dp[i-iter->first]+1);
+                } 
             }
         }
+        
+        return dp[amount];
+        
     }
     private:
         vector<int> coins;
