@@ -12,10 +12,20 @@ class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
         this->nums = nums;
-        dfs(0);
+        vector<int> subarray;
+//        dfs(0);   
+        backtracking(0, subarray);
         return res;
     }
     
+    void backtracking(int idx, vector<int>& subarray){
+        res.push_back(subarray);
+        for(int i = idx; i < nums.size();i++){
+            subarray.push_back(nums[i]);
+            backtracking(i+1, subarray);
+            subarray.pop_back();
+        }
+    }
     void dfs(int index){
         if(index == nums.size()){
             res.push_back(path);
