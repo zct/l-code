@@ -11,6 +11,7 @@
 #include <algorithm>
 
 using namespace std;
+/*
 class Solution {
 public:
 
@@ -58,6 +59,59 @@ public:
         }
         return  vecRes;
     }
+};*/
+class Solution
+{
+public:
+    vector<vector<int>> subsetsWithDup(vector<int> &nums)
+    {
+        sort(nums.begin(), nums.end());
+        this->nums = nums;
+       /* int startIndex = 0;
+        dfs(false, 0);
+        return res;*/
+        vector<int> used(nums.size(), 0);
+        vector<int> subarray;
+        backtracking(0, subarray, used);
+        return res;
+    }
+
+    void backtracking(int idx, vector<int>& subarray, vector<int>& used){
+        res.push_back(subarray);
+        for(int i = idx; i < nums.size(); i++){
+            if(i>0 && nums[i] == nums[i-1] && !used[i-1]){
+                continue;
+            }
+            subarray.push_back(nums[i]);
+            used[i] = true;
+            backtracking(i+1,  subarray, used);
+            subarray.pop_back();
+            used[i] = false;
+        }
+    }
+
+    void dfs(bool choosePre, int startIndex)
+    {
+        if (startIndex == nums.size())
+        {
+            res.push_back(path);
+            return;
+        }
+        dfs(false, startIndex + 1);
+        if (!choosePre && startIndex > 0 &&
+            nums[startIndex] == nums[startIndex - 1])
+        {
+            return;
+        }
+        path.push_back(nums[startIndex]);
+        dfs(true, startIndex + 1);
+        path.pop_back();
+    }
+
+private:
+    vector<int> nums;
+    vector<vector<int>> res;
+    vector<int> path;
 };
 // int main() {
 //     Solution s;
