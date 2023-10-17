@@ -15,6 +15,12 @@
  */
 #include <bits/stdc++.h>
 
+//推导公式
+// 2*f = l
+// k+m+f1*n = 2*(k+m+l1*n)
+//k是环的起点到head的距离，m是相遇点到环起点的距离
+// k+m = n*x
+//所以从起点和m点同时开始走，必定能够相遇在环的起点
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
