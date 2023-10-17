@@ -10,9 +10,53 @@
 
 using namespace std;
 
-class MinStack {
+class MinStack{
+    public:
+        MinStack() {
+            minVal = 0;
+        }
+        void push(int val){
+            if(vecStack.size() == 0){
+                assistStack.push_back(val);
+                minVal = val;
+            } else {
+                if(val < minVal){
+                    minVal = val;
+                    assistStack.push_back(val);
+                } else {
+                    assistStack.push_back(minVal);
+                }
+            }
+            vecStack.push_back(val);
+        }
+        int getMin(){
+            return minVal;
+        }
+        int top(){
+            return vecStack.back();
+        }
+        void pop(){
+            if(vecStack.size() <= 0){return;}
+            assistStack.pop_back();
+            vecStack.pop_back();
+            if(vecStack.size() == 0){
+                minVal = 0;
+                return;
+            }
+            int val = assistStack.back();
+            if(val > minVal){
+                minVal = val;
+            }
+        }
+    private:
+        vector<int> vecStack;
+        vector<int> assistStack;
+        int minVal;
+};
+
+class MinStack1 {
 public:
-    MinStack() {
+    MinStack1() {
         vecStack.resize(0);
         minValue = 0;
     }
