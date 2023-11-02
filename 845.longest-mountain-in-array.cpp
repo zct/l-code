@@ -11,32 +11,26 @@ using namespace std;
 class Solution {
 public:
     int longestMountain(vector<int>& arr) {
-        int isIncrease = 1;
-        int res = 0;
-        int ans = 1;
-        for(int i = 1; i< arr.size(); i++){
-             if(isIncrease == 1){
-                if(arr[i] > arr[i-1]){
-                    ans++;
-                }  else if(arr[i] == arr[i-1]){
-                    ans = 1;
-                } else {
-                    isIncrease = 2;
-                    ans++;
-                }
-            } else {
-                if(arr[i] >= arr[i-1]){
-                    res = max(res, ans);
-                    isIncrease = 1;
-                } else {
-                    ans++;
-                }
+        int i = 1;
+        int ans = 0;
+        while(i < arr.size()){
+            int decreasing = 0;
+            int increasing = 0;
+            while(i < arr.size() && arr[i] > arr[i-1]){
+                i++;
+                increasing++;
             }
+            while(i < arr.size() && arr[i] < arr[i-1]){
+                i++;
+                decreasing++;
+            }
+            if(increasing > 0 && decreasing > 0){
+                ans = max(increasing+decreasing+1, ans);
+            }
+            while(i < arr.size() && arr[i] == arr[i-1])
+                i++;
         }
-        if(ans != 1 && isIncrease == 2){
-            res = max(ans, res);
-        }
-        return res;
+        return ans;
     }
 };
 // @lc code=end
