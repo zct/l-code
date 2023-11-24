@@ -19,12 +19,16 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
+        if(head == nullptr || head->next == nullptr){
+            return head;
+        }
         ListNode *evenCurr = head->next;
         ListNode* evenHead = evenCurr;
         ListNode *oddCurr = head;
         ListNode *curr = evenCurr->next;
+        int num = 1; 
         while(curr != nullptr){
-            if(curr->val % 2 == 0){
+            if(num++ % 2 == 0){
                 evenCurr->next = curr;
                 evenCurr = curr;
             } else {
