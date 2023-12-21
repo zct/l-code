@@ -13,55 +13,34 @@ public:
     //
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        int uniqueNum = 1;
-        for(int i = 1; i <nums.size(); i++){
-            if(nums[i] != nums[i-1]){
-                uniqueNum++;
-            }
-        }
-        if (uniqueNum == 1){
-            nums = vector<int>(3, nums[0]);
-        }
-        set<vector<int> > dupSet;
+        vector<vector<int> > res;
         for(int i = 0; i < nums.size(); i++){
-            vector<vector<int>> a = twoSum(nums, -1*nums[i], i);
-            for(auto iter: a){
-                dupSet.insert(iter);
+            if(nums[i] > 0){
+                break;
             }
-        }
-        vector<vector<int>> res;
-        for(auto iter: dupSet)
-            res.push_back(iter);
-        return res;
-        
-    }
-    vector<vector<int>> twoSum(vector<int> &nums, int target, int index){
-        int start = 0;
-        int  end = nums.size() -1;
-        vector<vector<int>> res;
-        while(start < end){
-            if(start == index){
-                start++;
+            if(i> 0 && nums[i] == nums[i-1]){
                 continue;
             }
-            if(end == index){
-                end--;
-                continue;
-            }
-            if(nums[start] > target)   
-                break;
-            if(nums[end] < target)
-                break;
-            if(nums[start] + nums[end] == target){
-                vector<int> comb{-1*target, nums[start], nums[end]};
-                sort(comb.begin(), comb.end());
-                res.push_back(comb);
-                start++;
-                end--;
-            } else if(nums[start] + nums[end] > target){
-                end--;
-            } else {
-                start++;
+            int j = i+1;
+            int k = nums.size()-1;
+            bool match = false;
+            while(j < k){
+                int sum = nums[i] + nums[j];
+                sum+=nums[k];
+                if(match && nums[j] == nums[j-1]){
+                    j++;
+                    continue;
+                }
+                if (sum == 0){
+                    match = true;
+                    res.push_back(vector<int>{nums[i], nums[j], nums[k]});
+                    j++;
+                    k--;
+                } else if(sum > 0){
+                   k--; 
+                } else {
+                    j++;
+                }
             }
         }
         return res;
